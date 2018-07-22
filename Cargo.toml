@@ -2,5 +2,11 @@
 name = "window_events"
 version = "0.1.0"
 authors = ["recesfulu <recesfulu@srchub.io>"]
+description = "Events that window creation backends can use."
+repository = "https://srchub.io/recesfulu/window_events"
+keywords = ["window","system","event","events"]
+categories = ["os"]
 
 [dependencies]
+
+
