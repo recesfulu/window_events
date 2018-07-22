@@ -1,0 +1,6 @@
+[package]
+name = "window_events"
+version = "0.1.0"
+authors = ["recesfulu <recesfulu@srchub.io>"]
+
+[dependencies]
