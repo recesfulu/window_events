@@ -7,7 +7,7 @@ repository = "https://srchub.io/recesfulu/window_events"
 keywords = ["windowing","window","system","event","events"]
 categories = ["os", "gui"]
 license = "Apache-2.0"
-documentation = "https://docs.rs/winit"
+documentation = "https://docs.rs/window_events"
 
 [dependencies]
 
