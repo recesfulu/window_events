@@ -4,8 +4,10 @@ version = "0.1.0"
 authors = ["recesfulu <recesfulu@srchub.io>"]
 description = "Events that window creation backends can use."
 repository = "https://srchub.io/recesfulu/window_events"
-keywords = ["window","system","event","events"]
-categories = ["os"]
+keywords = ["windowing","window","system","event","events"]
+categories = ["os", "gui"]
+license = "Apache-2.0"
+documentation = "https://docs.rs/winit"
 
 [dependencies]
 
