@@ -1,3 +1,5 @@
+extern crate events_loop;
+
 use std::path::PathBuf;
 
 pub mod dpi;
@@ -457,3 +459,5 @@ pub struct ModifiersState {
     /// This is the "windows" key on PC and "command" key on Mac.
     pub logo: bool
 }
+
+pub type EventsLoop = events_loop::EventsLoop<Event>;
