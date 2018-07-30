@@ -6,8 +6,31 @@ pub mod dpi;
 
 use dpi::{LogicalPosition, LogicalSize};
 
-type WindowId = u64;
-type DeviceId = u64;
+#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+pub struct WindowId(u64);
+
+impl WindowId {
+    fn to_u64(&self) -> u64 {
+        self.0
+    }
+
+    unsafe fn new(id: u64) -> Self {
+        WindowId(id)
+    }
+}
+
+#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+pub struct DeviceId(u64);
+
+impl DeviceId {
+    fn to_u64(&self) -> u64 {
+        self.0
+    }
+
+    unsafe fn new(id: u64) -> Self {
+        DeviceId(id)
+    }
+}
 
 /// Describes a generic event.
 #[derive(Clone, Debug)]

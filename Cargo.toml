@@ -1,6 +1,6 @@
 [package]
 name = "window_events"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["recesfulu <recesfulu@srchub.io>"]
 description = "Events that window creation backends can use."
 repository = "https://srchub.io/recesfulu/window_events"
