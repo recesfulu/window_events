@@ -11,4 +11,7 @@ documentation = "https://docs.rs/window_events"
 
 [dependencies]
 events_loop = "0.1"
+serde = { version = "1", optional = true, features = ["serde_derive"]}
 
+[package.metadata.docs.rs]
+features = ["serde"]

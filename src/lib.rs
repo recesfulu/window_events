@@ -1,3 +1,7 @@
+#[cfg(feature = "serde")]
+#[macro_use]
+extern crate serde;
+
 extern crate events_loop;
 
 use std::path::PathBuf;
@@ -33,7 +37,7 @@ impl DeviceId {
 }
 
 /// Describes a generic event.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Event {
     WindowEvent {
         window_id: WindowId,
@@ -52,7 +56,7 @@ pub enum Event {
 }
 
 /// Describes an event from a `Window`.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum WindowEvent {
     /// The size of the window has changed. Contains the client area's new dimensions.
     Resized(LogicalSize),
@@ -67,12 +71,21 @@ pub enum WindowEvent {
     Destroyed,
 
     /// A file has been dropped into the window.
+    /// 
+    /// When the user drops multiple files at once, this event will be emitted for each file
+    /// separately.
     DroppedFile(PathBuf),
 
     /// A file is being hovered over the window.
+    /// 
+    /// When the user hovers multiple files at once, this event will be emitted for each file
+    /// separately.
     HoveredFile(PathBuf),
 
     /// A file was hovered, but has exited the window.
+    /// 
+    /// There will be a single `HoveredFileCancelled` event triggered even if multiple files were
+    /// hovered.
     HoveredFileCancelled,
 
     /// The window received a unicode character.
@@ -146,7 +159,7 @@ pub enum WindowEvent {
 /// may not match.
 ///
 /// Note that these events are delivered regardless of input focus.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum DeviceEvent {
     Added,
     Removed,
@@ -177,8 +190,9 @@ pub enum DeviceEvent {
 }
 
 /// Describes a keyboard input event.
-#[derive(Debug, Clone, Copy)]
-pub struct KeyboardInput {
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+ pub struct KeyboardInput {
     /// Identifies the physical key pressed
     ///
     /// This should not change if the user adjusts the host's keyboard map. Use when the physical location of the
@@ -203,6 +217,7 @@ pub struct KeyboardInput {
 
 /// Describes touch-screen input state.
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))] 
 pub enum TouchPhase {
     Started,
     Moved,
@@ -225,7 +240,7 @@ pub enum TouchPhase {
 /// as previously received End event is a new finger and has nothing to do with an old one.
 ///
 /// Touch may be cancelled if for example window lost focus.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Touch {
     pub device_id: DeviceId,
     pub phase: TouchPhase,
@@ -245,6 +260,7 @@ pub type ButtonId = u32;
 
 /// Describes the input state of a key.
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))] 
 pub enum ElementState {
     Pressed,
     Released,
@@ -252,6 +268,7 @@ pub enum ElementState {
 
 /// Describes a button of a mouse controller.
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))] 
 pub enum MouseButton {
     Left,
     Right,
@@ -261,6 +278,7 @@ pub enum MouseButton {
 
 /// Describes a difference in the mouse scroll wheel state.
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))] 
 pub enum MouseScrollDelta {
 	/// Amount in lines or rows to scroll in the horizontal
 	/// and vertical directions.
@@ -278,8 +296,9 @@ pub enum MouseScrollDelta {
 }
 
 /// Symbolic name for a keyboard key.
-#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, Hash, Ord, PartialOrd, PartialEq, Eq, Clone, Copy)]
 #[repr(u32)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))] 
 pub enum VirtualKeyCode {
     /// The '1' key over the letters.
     Key1,
@@ -347,6 +366,15 @@ pub enum VirtualKeyCode {
     F13,
     F14,
     F15,
+    F16,
+    F17,
+    F18,
+    F19,
+    F20,
+    F21,
+    F22,
+    F23,
+    F24,
 
     /// Print Screen/SysRq.
     Snapshot,
@@ -470,6 +498,8 @@ pub enum VirtualKeyCode {
 ///
 /// Each field of this struct represents a modifier and is `true` if this modifier is active.
 #[derive(Default, Debug, Hash, PartialEq, Eq, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "serde", serde(default))]
 pub struct ModifiersState {
     /// The "shift" key
     pub shift: bool,
