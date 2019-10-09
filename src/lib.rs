@@ -2,7 +2,7 @@
 #[macro_use]
 extern crate serde;
 
-extern crate events_loop;
+pub extern crate events_loop;
 
 use std::path::PathBuf;
 
